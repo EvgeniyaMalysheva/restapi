@@ -79,7 +79,7 @@ public class BookStoreSteps {
         return this;
     }
 
-    @Step("Добавляем книгу в коллекцию профиля")
+    @Step("Добавляем книгу/книги в коллекцию профиля")
     public BookStoreSteps addBooksToProfileCollection
             (List<IsbnModel> listOfIsbn, String userIdValue, String tokenValue) {
 
