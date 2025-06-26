@@ -1,6 +1,7 @@
 package tests;
 
 public class TestData {
+
     protected final static String DEMOQA_LOGIN = "EMalysh",
             DEMOQA_PASSWORD = "Vbrd_100)%",
             BOOK_END_POINT = "/BookStore/v1/Book",

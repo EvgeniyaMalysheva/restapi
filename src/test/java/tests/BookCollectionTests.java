@@ -19,6 +19,9 @@ public class BookCollectionTests extends TestBase {
             (new IsbnModel(firstBookId));
     private final List<IsbnModel> listOfTwoBooks = List.of
             (new IsbnModel(firstBookId), new IsbnModel(secondBookId));
+    private final List<String> listOfOneBookName = List.of(firstBookName);
+    private final List<String> listOfTwoBookNames = List.of(firstBookName, secondBookName);
+    private final List<String> listOfSecondBookName = List.of(secondBookName);
     private String userId,
             token,
             expires;
@@ -37,7 +40,8 @@ public class BookCollectionTests extends TestBase {
         newBookStoreSession.deleteAllBooksFromProfileCollection(userId, token)
                 .addBooksToProfileCollection(listOfOneBook, userId, token)
                 .setDemoqaCookie(userId, token, expires)
-                .checkOneBookNameAndQuantityInProfileCollection(firstBookName);
+                .checkBookNamesInProfileCollection(listOfOneBookName)
+                .checkBooksQuantityInProfileCollection(1);
     }
 
     @Test
@@ -45,8 +49,11 @@ public class BookCollectionTests extends TestBase {
     void addTwoBooksToCollection_thenDeleteOneBook_Test() {
         newBookStoreSession.deleteAllBooksFromProfileCollection(userId, token)
                 .addBooksToProfileCollection(listOfTwoBooks, userId, token)
-                .deleteOneBookFromProfileCollection(firstBookId, userId, token)
                 .setDemoqaCookie(userId, token, expires)
-                .checkOneBookNameAndQuantityInProfileCollection(secondBookName);
+                .checkBookNamesInProfileCollection(listOfTwoBookNames)
+                .checkBooksQuantityInProfileCollection(2)
+                .deleteOneBookFromProfileCollection(firstBookId, userId, token)
+                .checkBookNamesInProfileCollection(listOfSecondBookName)
+                .checkBooksQuantityInProfileCollection(1);
     }
 }

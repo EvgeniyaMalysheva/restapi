@@ -7,7 +7,7 @@ import org.openqa.selenium.Cookie;
 import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.restassured.RestAssured.given;
@@ -99,10 +99,19 @@ public class BookStoreSteps {
         return this;
     }
 
-    @Step("Проверяем, отображается ли книга")
-    public void checkOneBookNameAndQuantityInProfileCollection(String bookName) {
+    @Step("Проверяем отображение книги/книг в коллекции профиля")
+    public BookStoreSteps checkBookNamesInProfileCollection(List<String> bookNameValue) {
         open("/profile");
-        $(".rt-td a").shouldHave(text(bookName));
-        $$(".rt-td a").shouldHave(size(1));
+        $$(".rt-td a").shouldHave(texts(bookNameValue));
+
+        return this;
+    }
+
+    @Step("Проверяем количество отображаемых книг")
+    public BookStoreSteps checkBooksQuantityInProfileCollection(Integer quantityValue) {
+        open("/profile");
+        $$(".rt-td a").shouldHave(size(quantityValue));
+
+        return this;
     }
 }
