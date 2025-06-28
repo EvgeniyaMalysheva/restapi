@@ -27,7 +27,7 @@ public class BookCollectionTests extends TestBase {
             expires;
 
     @BeforeEach
-    public void authentificateAndSetParams() {
+    public void authAndSetParams() {
         LoginResponseModel authResponse = newBookStoreSession.demoqaAuth();
         userId = authResponse.getUserId();
         token = authResponse.getToken();

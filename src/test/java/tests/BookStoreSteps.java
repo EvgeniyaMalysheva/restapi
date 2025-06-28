@@ -24,6 +24,14 @@ public class BookStoreSteps {
         authData.setUserName(DEMOQA_LOGIN);
         authData.setPassword(DEMOQA_PASSWORD);
 
+        given(demoqaRequestSpec)
+                .body(authData)
+                .when()
+                .post(GENERATE_TOKEN_END_POINT)
+                .then()
+                .spec(demoqaResponseSpec)
+                .statusCode(HTTP_OK);
+
         return given(demoqaRequestSpec)
                 .body(authData)
                 .when()
