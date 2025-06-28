@@ -1,7 +1,7 @@
-package helpers.withlogin;
+package extensions;
 
-import api.authorization.AuthorizationApi;
-import api.authorization.AuthorizationResponseDto;
+import api.AccountApiSteps;
+import api.models.LoginResponseDto;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.Cookie;
@@ -14,14 +14,13 @@ public class LoginExtension implements BeforeEachCallback {
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
-        AuthorizationResponseDto response = AuthorizationApi.demoqaAuth();
+        LoginResponseDto response = AccountApiSteps.demoqaAuth();
 
         String userIdValue = response.getUserId();
         String tokenValue = response.getToken();
         String expiresValue = response.getExpires();
 
-        step("Авторизация @WithLogin", () ->
-        open("/images/Toolsqa.jpg"));
+        open("/images/Toolsqa.jpg");
         getWebDriver().manage().addCookie(new Cookie("userID", userIdValue));
         getWebDriver().manage().addCookie(new Cookie("expires", expiresValue));
         getWebDriver().manage().addCookie(new Cookie("token", tokenValue));

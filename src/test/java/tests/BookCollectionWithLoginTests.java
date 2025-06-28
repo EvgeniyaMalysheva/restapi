@@ -1,9 +1,9 @@
 package tests;
 
-import helpers.withlogin.WithLogin;
+import annotations.WithLogin;
 import io.qameta.allure.Owner;
-import models.demoqa.IsbnModel;
-import models.demoqa.LoginResponseModel;
+import models.IsbnModel;
+import models.LoginResponseModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;

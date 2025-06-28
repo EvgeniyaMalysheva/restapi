@@ -1,8 +1,8 @@
 package tests;
 
 import io.qameta.allure.Owner;
-import models.demoqa.IsbnModel;
-import models.demoqa.LoginResponseModel;
+import models.IsbnModel;
+import models.LoginResponseModel;
 import org.junit.jupiter.api.*;
 
 import java.util.List;

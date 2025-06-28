@@ -1,8 +1,9 @@
-package api.authorization;
+package models;
 
 import lombok.Data;
 
 @Data
-public class AuthorizationResponseDto {
+public class LoginResponseModel {
     private String userId, username, password, token, expires, created_date, isActive;
+
 }

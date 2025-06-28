@@ -1,7 +1,7 @@
 package tests;
 
 import io.qameta.allure.Step;
-import models.demoqa.*;
+import models.*;
 import org.openqa.selenium.Cookie;
 
 import java.util.List;
