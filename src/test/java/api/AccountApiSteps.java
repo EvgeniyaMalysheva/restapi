@@ -1,8 +1,8 @@
 package api;
 
-import api.models.LoginResponseDto;
 import io.qameta.allure.Step;
 import models.LoginBodyModel;
+import models.LoginResponseModel;
 
 import static io.restassured.RestAssured.given;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -12,7 +12,7 @@ import static specs.DemoqaSpecs.demoqaResponseSpec;
 public class AccountApiSteps {
 
     @Step("Авторизуемся на сайте @WithLogin")
-    public static LoginResponseDto demoqaAuth() {
+    public static LoginResponseModel demoqaAuth() {
         LoginBodyModel authData = new LoginBodyModel();
         authData.setUserName("EMalysh");
         authData.setPassword("Vbrd_100)%");
@@ -33,6 +33,6 @@ public class AccountApiSteps {
                 .then()
                 .spec(demoqaResponseSpec)
                 .statusCode(HTTP_OK)
-                .extract().as(LoginResponseDto.class);
+                .extract().as(LoginResponseModel.class);
     }
 }

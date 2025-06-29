@@ -26,17 +26,19 @@ public class TestBase {
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("version", "127.0");
         Configuration.browserSize = System.getProperty("resolution", "1920x1080");
-        Configuration.remote = "https://"
-                + System.getProperty("selenoidCredentials", "user1:1234@")
-                + System.getProperty("selenoidUrl", "selenoid.autotests.cloud")
-                + "/wd/hub";
+        if (System.getProperty("selenoidCredentials") != null) {
+            Configuration.remote = "https://"
+                    + System.getProperty("selenoidCredentials")
+                    + System.getProperty("selenoidUrl")
+                    + "/wd/hub";
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("selenoid:options", Map.<String, Object>of(
-                "enableVNC", true,
-                "enableVideo", true
-        ));
-        Configuration.browserCapabilities = capabilities;
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability("selenoid:options", Map.<String, Object>of(
+                    "enableVNC", true,
+                    "enableVideo", true
+            ));
+            Configuration.browserCapabilities = capabilities;
+        }
     }
 
     @BeforeEach
