@@ -3,8 +3,6 @@ package tests;
 import annotations.WithLogin;
 import io.qameta.allure.Owner;
 import models.IsbnModel;
-import models.LoginResponseModel;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -25,22 +23,13 @@ public class BookCollectionWithLoginTests extends TestBase {
     private final List<String> listOfOneBookName = List.of(firstBookName);
     private final List<String> listOfTwoBookNames = List.of(firstBookName, secondBookName);
     private final List<String> listOfSecondBookName = List.of(secondBookName);
-    private String userId,
-            token;
-
-    @BeforeEach
-    public void authentificateAndSetParams() {
-        LoginResponseModel authResponse = newBookStoreSession.demoqaAuth();
-        userId = authResponse.getUserId();
-        token = authResponse.getToken();
-    }
 
     @Test
     @WithLogin
     @DisplayName("Добавляем в коллекцию профиля одну книгу")
     void addBookToCollectionTest() {
-        newBookStoreSession.deleteAllBooksFromProfileCollection(userId, token)
-                .addBooksToProfileCollection(listOfOneBook, userId, token)
+        newBookStoreSession.deleteAllBooksFromProfileCollection()
+                .addBooksToProfileCollection(listOfOneBook)
                 .checkBookNamesInProfileCollection(listOfOneBookName)
                 .checkBooksQuantityInProfileCollection(1);
     }
@@ -49,11 +38,11 @@ public class BookCollectionWithLoginTests extends TestBase {
     @WithLogin
     @DisplayName("Добавляем в коллекцию профиля две книги, одну удаляем")
     void addTwoBooksToCollection_thenDeleteOneBook_Test() {
-        newBookStoreSession.deleteAllBooksFromProfileCollection(userId, token)
-                .addBooksToProfileCollection(listOfTwoBooks, userId, token)
+        newBookStoreSession.deleteAllBooksFromProfileCollection()
+                .addBooksToProfileCollection(listOfTwoBooks)
                 .checkBookNamesInProfileCollection(listOfTwoBookNames)
                 .checkBooksQuantityInProfileCollection(2)
-                .deleteOneBookFromProfileCollection(firstBookId, userId, token)
+                .deleteOneBookFromProfileCollection(firstBookId)
                 .checkBookNamesInProfileCollection(listOfSecondBookName)
                 .checkBooksQuantityInProfileCollection(1);
     }

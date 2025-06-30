@@ -1,15 +1,14 @@
 package tests;
 
+import extensions.LoginExtension;
 import io.qameta.allure.Step;
 import models.*;
-import org.openqa.selenium.Cookie;
 
 import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.restassured.RestAssured.given;
 import static java.net.HttpURLConnection.*;
 import static specs.DemoqaSpecs.demoqaRequestSpec;
@@ -18,47 +17,11 @@ import static tests.TestData.*;
 
 public class BookStoreSteps {
 
-    @Step("Авторизуемся на сайте")
-    public LoginResponseModel demoqaAuth() {
-        LoginBodyModel authData = new LoginBodyModel();
-        authData.setUserName(DEMOQA_LOGIN);
-        authData.setPassword(DEMOQA_PASSWORD);
-
-        given(demoqaRequestSpec)
-                .body(authData)
-                .when()
-                .post(GENERATE_TOKEN_END_POINT)
-                .then()
-                .spec(demoqaResponseSpec)
-                .statusCode(HTTP_OK);
-
-        return given(demoqaRequestSpec)
-                .body(authData)
-                .when()
-                .post(LOGIN_END_POINT)
-                .then()
-                .spec(demoqaResponseSpec)
-                .statusCode(HTTP_OK)
-                .extract().as(LoginResponseModel.class);
-    }
-
-    @Step("Подменяем cookie на сайте")
-    public BookStoreSteps setDemoqaCookie
-            (String userIdValue, String tokenValue, String expiresValue) {
-        open("/favicon.ico");
-        getWebDriver().manage().addCookie(new Cookie("userID", userIdValue));
-        getWebDriver().manage().addCookie(new Cookie("expires", expiresValue));
-        getWebDriver().manage().addCookie(new Cookie("token", tokenValue));
-
-        return this;
-    }
-
     @Step("Удаляем все книги из коллекции профиля")
-    public BookStoreSteps deleteAllBooksFromProfileCollection
-            (String userIdValue, String tokenValue) {
+    public BookStoreSteps deleteAllBooksFromProfileCollection() {
         given(demoqaRequestSpec)
-                .header("Authorization", "Bearer " + tokenValue)
-                .queryParams("UserId", userIdValue)
+                .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
+                .queryParams("UserId", LoginExtension.getLoginResponse().getUserId())
                 .when()
                 .delete(BOOKS_END_POINT)
                 .then()
@@ -70,13 +33,13 @@ public class BookStoreSteps {
 
     @Step("Удаляем одну книгу из коллекции профиля")
     public BookStoreSteps deleteOneBookFromProfileCollection
-            (String isbnValue, String userIdValue, String tokenValue) {
+            (String isbnValue) {
         DeleteOneBookBodyModel deleteBookData = new DeleteOneBookBodyModel();
-        deleteBookData.setUserId(userIdValue);
+        deleteBookData.setUserId(LoginExtension.getLoginResponse().getUserId());
         deleteBookData.setIsbn(isbnValue);
 
         given(demoqaRequestSpec)
-                .header("Authorization", "Bearer " + tokenValue)
+                .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(deleteBookData)
                 .when()
                 .delete(BOOK_END_POINT)
@@ -89,14 +52,14 @@ public class BookStoreSteps {
 
     @Step("Добавляем книгу/книги в коллекцию профиля")
     public BookStoreSteps addBooksToProfileCollection
-            (List<IsbnModel> listOfIsbn, String userIdValue, String tokenValue) {
+            (List<IsbnModel> listOfIsbn) {
 
         AddListOfBooksModel newBookData = new AddListOfBooksModel();
-        newBookData.setUserId(userIdValue);
+        newBookData.setUserId( LoginExtension.getLoginResponse().getUserId());
         newBookData.setCollectionOfIsbns(listOfIsbn);
 
         given(demoqaRequestSpec)
-                .header("Authorization", "Bearer " + tokenValue)
+                .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(newBookData)
                 .when()
                 .post(BOOKS_END_POINT)
