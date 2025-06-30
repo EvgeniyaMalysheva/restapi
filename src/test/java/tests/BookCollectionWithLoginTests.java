@@ -28,22 +28,22 @@ public class BookCollectionWithLoginTests extends TestBase {
     @WithLogin
     @DisplayName("Добавляем в коллекцию профиля одну книгу")
     void addBookToCollectionTest() {
-        newBookStoreSession.deleteAllBooksFromProfileCollection()
-                .addBooksToProfileCollection(listOfOneBook)
-                .checkBookNamesInProfileCollection(listOfOneBookName)
-                .checkBooksQuantityInProfileCollection(1);
+        newBookStoreSession.deleteAllBooksFromCollection()
+                .addBooksToCollection(listOfOneBook)
+                .checkBookNames(listOfOneBookName)
+                .checkBooksQuantity(1);
     }
 
     @Test
     @WithLogin
     @DisplayName("Добавляем в коллекцию профиля две книги, одну удаляем")
     void addTwoBooksToCollection_thenDeleteOneBook_Test() {
-        newBookStoreSession.deleteAllBooksFromProfileCollection()
-                .addBooksToProfileCollection(listOfTwoBooks)
-                .checkBookNamesInProfileCollection(listOfTwoBookNames)
-                .checkBooksQuantityInProfileCollection(2)
-                .deleteOneBookFromProfileCollection(firstBookId)
-                .checkBookNamesInProfileCollection(listOfSecondBookName)
-                .checkBooksQuantityInProfileCollection(1);
+        newBookStoreSession.deleteAllBooksFromCollection()
+                .addBooksToCollection(listOfTwoBooks)
+                .checkBookNames(listOfTwoBookNames)
+                .checkBooksQuantity(2)
+                .deleteOneBookFromCollection(firstBookId)
+                .checkBookNames(listOfSecondBookName)
+                .checkBooksQuantity(1);
     }
 }

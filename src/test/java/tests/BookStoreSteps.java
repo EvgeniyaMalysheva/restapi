@@ -18,7 +18,7 @@ import static tests.TestData.*;
 public class BookStoreSteps {
 
     @Step("Удаляем все книги из коллекции профиля")
-    public BookStoreSteps deleteAllBooksFromProfileCollection() {
+    public BookStoreSteps deleteAllBooksFromCollection() {
         given(demoqaRequestSpec)
                 .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .queryParams("UserId", LoginExtension.getLoginResponse().getUserId())
@@ -32,7 +32,7 @@ public class BookStoreSteps {
     }
 
     @Step("Удаляем одну книгу из коллекции профиля")
-    public BookStoreSteps deleteOneBookFromProfileCollection
+    public BookStoreSteps deleteOneBookFromCollection
             (String isbnValue) {
         DeleteOneBookBodyModel deleteBookData = new DeleteOneBookBodyModel();
         deleteBookData.setUserId(LoginExtension.getLoginResponse().getUserId());
@@ -51,7 +51,7 @@ public class BookStoreSteps {
     }
 
     @Step("Добавляем книгу/книги в коллекцию профиля")
-    public BookStoreSteps addBooksToProfileCollection
+    public BookStoreSteps addBooksToCollection
             (List<IsbnModel> listOfIsbn) {
 
         AddListOfBooksModel newBookData = new AddListOfBooksModel();
@@ -71,7 +71,7 @@ public class BookStoreSteps {
     }
 
     @Step("Проверяем отображение книги/книг в коллекции профиля")
-    public BookStoreSteps checkBookNamesInProfileCollection(List<String> bookNameValue) {
+    public BookStoreSteps checkBookNames(List<String> bookNameValue) {
         open("/profile");
         $$(".rt-td a").shouldHave(texts(bookNameValue));
 
@@ -79,7 +79,7 @@ public class BookStoreSteps {
     }
 
     @Step("Проверяем количество отображаемых книг")
-    public BookStoreSteps checkBooksQuantityInProfileCollection(Integer quantityValue) {
+    public BookStoreSteps checkBooksQuantity(Integer quantityValue) {
         open("/profile");
         $$(".rt-td a").shouldHave(size(quantityValue));
 
