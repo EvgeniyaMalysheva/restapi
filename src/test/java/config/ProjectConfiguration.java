@@ -5,6 +5,7 @@ import io.restassured.RestAssured;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class ProjectConfiguration {
     private final WebConfig webConfig;
@@ -27,7 +28,8 @@ public class ProjectConfiguration {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                     "enableVNC", true,
-                    "enableVideo", true
+                    "enableVideo", true,
+                    "name", "Test: " + UUID.randomUUID()
             ));
             Configuration.browserCapabilities = capabilities;
         }
